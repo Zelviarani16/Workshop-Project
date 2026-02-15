@@ -26,6 +26,7 @@
             <h4>Hello! let's get started</h4>
             <h6 class="font-weight-light">Sign in to continue.</h6>
 
+            <!-- Route login diarahkan ke POST /login -->
             <form class="pt-3" method="POST" action="{{ route('login') }}">
               @csrf
               <div class="form-group">
