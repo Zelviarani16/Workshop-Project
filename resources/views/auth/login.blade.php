@@ -43,9 +43,21 @@
                 </div>
                 <a href="{{ route('password.request') }}" class="auth-link text-primary">Forgot password?</a>
               </div>
+
               <div class="mt-3 d-grid gap-2">
-                <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+              <button type="submit" 
+                      class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn mb-3">
+                SIGN IN
+              </button>
+            </div>
+
+
+              <div class="mb-2 d-grid gap-2">
+                <a href="{{ url('/auth/google') }}" class="btn btn-block btn-google auth-form-btn">
+                  <i class="mdi mdi-google me-2"></i> Login dengan Google
+                </a>
               </div>
+
 
               <div class="text-center mt-4 font-weight-light">
                 Don't have an account? <a href="{{ route('register') }}" class="text-primary">Create</a>

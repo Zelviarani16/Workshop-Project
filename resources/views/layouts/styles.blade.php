@@ -8,4 +8,4 @@
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
 
     <!-- CSS CUSTOM -->
-    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}"> -->

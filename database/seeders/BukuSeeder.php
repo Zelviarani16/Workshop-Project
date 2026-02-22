@@ -14,7 +14,8 @@ class BukuSeeder extends Seeder
     public function run()
     {
         Buku::insert([
-            ['kode' => 'NV-01', 'judul' => 'Home Sweet Loan', 'pengarang' => 'Almira Bastari', 'idkategori' => 1]
+            ['kode' => 'NV-01', 'judul' => 'Home Sweet Loan', 'pengarang' => 'Almira Bastari', 'idkategori' => 1],
+            ['kode' => 'NV-02', 'judul' => 'Keajaiban Toko Kelontong Namiya', 'pengarang' => 'Keigo Higashino', 'idkategori' => 3]
         ]);
     }
 }

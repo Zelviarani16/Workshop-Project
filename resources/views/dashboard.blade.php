@@ -130,9 +130,8 @@
 </div>
 
 
-
 {{-- STATUS --}}
-@if (session('status'))
+<!-- @if (session('status'))
 
 <div class="row">
     <div class="col-12">
@@ -142,7 +141,7 @@
     </div>
 </div>
 
-@endif
+@endif -->
 
 
 @endsection

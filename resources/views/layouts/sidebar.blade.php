@@ -10,7 +10,8 @@
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('buku.*') || request()->routeIs('kategori.*') ? 'active' : '' }}">
+              <!-- href = #ui basic, artinya kalau link itu di klik bootstrap akan cari elemen dgn id ui-basic.  data-bs-toggle="collapse" → memberi tahu Bootstrap bahwa ini tombol dropdown -->
               <a class="nav-link {{ request()->routeIs('buku.*') || request()->routeIs('kategori.*') ? 'active' : '' }}"
                 data-bs-toggle="collapse"
                 href="#ui-basic">
@@ -18,6 +19,7 @@
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
               </a>
+              <!-- Kalau route yg sedang aktif .*, maka class show ditambahkan. show = collapse dalam keadaan terbuka -->
               <div class="collapse {{ request()->routeIs('buku.*') || request()->routeIs('kategori.*') ? 'show' : '' }}"
                   id="ui-basic">
                 <ul class="nav flex-column sub-menu">
@@ -33,6 +35,19 @@
                         Kategori
                     </a>
                 </li>
+                  <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('sertifikat.*') ? 'active' : '' }}"
+                      href="{{ route('sertifikat.generate') }}">
+                        Sertifikat
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('undangan.*') ? 'active' : '' }}"
+                      href="{{ route('undangan.generate') }}">
+                        Undangan
+                    </a>
+                  </li>
+
                 </ul>
               </div>
             </li>

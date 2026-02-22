@@ -8,7 +8,7 @@ class Kategori extends Model
 {
     protected $table = 'kategori';
     protected $primaryKey = 'idkategori'; 
-    // protected $primaryKey = ['idkategori']; HARUS STRING BOSS BUKAN ARRAY
+    // protected $primaryKey = ['idkategori']; HARUS STRING BUKAN ARRAY
     public $timestamps = false; // kalau tabel kategori gak ada created_at / updated_at
     protected $fillable = ['nama_kategori'];
 

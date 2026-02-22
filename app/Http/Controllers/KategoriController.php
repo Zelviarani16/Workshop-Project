@@ -10,17 +10,16 @@ class KategoriController extends Controller
     // Tampilkan semua kategori
     public function index()
     {
+        // Tidak perlu with krn kita Tidak perlu menampilkan data buku di halaman kategori
         $kategoris = Kategori::all();
         return view('kategori.index', compact('kategoris'));
     }
 
-    // Form untuk tambah kategori baru
     public function create()
     {
         return view('kategori.create');
     }
 
-    // Simpan kategori baru
     public function store(Request $request)
     {
         $request->validate([
@@ -33,14 +32,12 @@ class KategoriController extends Controller
                          ->with('success', 'Kategori berhasil ditambahkan');
     }
 
-    // Form edit kategori
     public function edit($id)
     {
         $kategori = Kategori::findOrFail($id);
         return view('kategori.edit', compact('kategori'));
     }
 
-    // Update kategori
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -54,7 +51,6 @@ class KategoriController extends Controller
                          ->with('success', 'Kategori berhasil diupdate');
     }
 
-    // Hapus kategori
     public function destroy($id)
     {
         $kategori = Kategori::findOrFail($id);

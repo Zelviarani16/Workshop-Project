@@ -18,6 +18,7 @@ class Buku extends Model
 
     public function kategori()
     {
+        // 1 Buku milik satu Kategori
         return $this->belongsTo(Kategori::class, 'idkategori', 'idkategori');
     }
 }
