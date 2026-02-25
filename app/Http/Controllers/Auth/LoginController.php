@@ -46,12 +46,9 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        // guest hanya boleh masuk kalau belum login
-        // Kalau user SUDAH login,
-        // dan coba buka /login lagi,
-        // maka middleware guest akan redirect ke:
+        // Halaman  
         $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+        $this->middleware('auth')->only('logout'); 
     }
 
     

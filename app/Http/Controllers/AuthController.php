@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\Provider;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\GoogleProvider;
 
 
 class AuthController extends Controller
@@ -23,9 +24,22 @@ class AuthController extends Controller
     public function callbackGoogle()
     {
     /** @var GoogleProvider $provider */
+    // Buat object provider google dan mempersiapkan konfigurasi
+//     GoogleProvider {
+//    clientId: xxx
+//    clientSecret: xxx
+//    redirectUrl: xxx
+//    request: current_request
+// }
     $provider = Socialite::driver('google');
 
+    // Ambil data user dari google (ambil code dari url callback)
+    // kirim code ke Google
+    // tukar dengan access_token
+    // ambil data user
+    // kembalikan sebagai object
     $googleUser = $provider->stateless()->user();
+    
         // Cek apakah user sudah ada
         $user = User::where('email', $googleUser->email)->first();
 
