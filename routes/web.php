@@ -1,14 +1,14 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DashboardController;
-
 use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\UndanganController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 
 
@@ -52,5 +52,7 @@ Route::middleware(['auth'])->group(function () {
     // CRUD Kategori
     Route::resource('kategori', KategoriController::class);
 
+    Route::post('barang/cetak', [BarangController::class, 'cetak'])->name('barang.cetak');
 
+    Route::resource('barang', BarangController::class);
 });

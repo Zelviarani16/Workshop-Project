@@ -48,6 +48,13 @@
                     </a>
                   </li>
 
+                    <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('barang.*') ? 'active' : '' }}"
+                      href="{{ route('barang.index') }}">
+                        Barang
+                    </a>
+                  </li>
+
                 </ul>
               </div>
             </li>
