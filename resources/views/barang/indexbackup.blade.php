@@ -6,6 +6,16 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
 
 <style>
+/* #tableBarang thead th.sorting:before,
+#tableBarang thead th.sorting_asc:before,
+#tableBarang thead th.sorting_desc:before {
+    content: "↑";
+    display: inline-block !important;
+    left: 8px !important;
+    right: auto !important;
+    margin-top: -8px;
+} */
+
 /* HEADER TABLE */
 #tableBarang thead th {
     position: relative;
@@ -128,7 +138,7 @@
 <input type="checkbox" id="checkAll">
 </th>
 
-<th>No.</th>
+<th>ID</th>
 
 <th>Nama</th>
 
@@ -153,7 +163,7 @@
 </td>
 
 <td>
-{{ $loop->iteration }}
+{{ $item->id_barang }}
 </td>
 
 <td>
@@ -225,29 +235,38 @@ Hapus
 
 <script>
 
-    $(document).ready(function() {
+$(document).ready(function() {
 
-   $('#tableBarang').DataTable({
+$('#tableBarang').DataTable({
 
 columnDefs: [
 
 {
-targets: [0,4], // checkbox dan aksi
+targets: [0,4],
 orderable: false,
 searchable: false
+},
+
+{
+targets: 1,
+type: "num"
 }
 
 ],
 
-order: [[2,'asc']], // sort berdasarkan Nama
+order: [[1,'asc']],
 
 });
 
-    $('#checkAll').on('change', function() {
-        $('input[name="selected_barang[]"]').prop(
-        'checked',
-        this.checked
-        );
+
+
+$('#checkAll').on('change', function() {
+
+$('input[name="selected_barang[]"]').prop(
+'checked',
+this.checked
+);
+
 });
 
 });

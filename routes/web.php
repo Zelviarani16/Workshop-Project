@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sertifikat', [PdfController::class, 'sertifikat'])
         ->name('sertifikat.generate');
 
-    Route::get('/undangan/generate', [UndanganController::class, 'generate'])
+    Route::get('/undangan/generate', [PdfController::class, 'undangan'])
     ->name('undangan.generate');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

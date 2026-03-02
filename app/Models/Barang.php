@@ -11,7 +11,7 @@ class Barang extends Model
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = [
-        'nama_barang',
+        'nama',
         'harga'
     ];
 }

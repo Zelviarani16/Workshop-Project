@@ -31,7 +31,7 @@
 
 
         {{-- ID BARANG --}}
-        <div class="form-group">
+        <!-- <div class="form-group">
 
             <label>ID Barang</label>
 
@@ -42,7 +42,7 @@
 
             <small class="text-muted">ID barang tidak dapat diubah</small>
 
-        </div>
+        </div> -->
 
 
         {{-- NAMA --}}

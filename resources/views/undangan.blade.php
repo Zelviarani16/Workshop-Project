@@ -85,35 +85,34 @@ body {
 
 <body>
 
-{{-- ✅ WATERMARK UNAIR --}}
+{{-- WATERMARK UNAIR --}}
 <!-- <img src="{{ public_path('assets/images/watermark-unair.png') }}" class="watermark"> -->
 
-{{-- ✅ KOP SURAT --}}
+{{-- KOP SURAT --}}
 <!-- <div class="kop">
     <img src="{{ public_path('assets/images/kop-unair.png') }}">
 </div> -->
 <div class="garis"></div>
 
-{{-- ✅ TANGGAL KANAN --}}
+{{-- TANGGAL KANAN --}}
 <p class="right">Surabaya, {{ $tanggal ?? '....................' }}</p>
 
-{{-- ✅ NOMOR --}}
+{{-- NOMOR --}}
 <p>
 Nomor &nbsp;&nbsp;&nbsp;&nbsp;: {{ $nomor ?? '-' }} <br>
 Lampiran : {{ $lampiran ?? '-' }} <br>
 Hal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Undangan
 </p>
 
-{{-- ✅ TUJUAN --}}
+{{-- TUJUAN --}}
 <p>
 Yth.<br>
-{!! nl2br(e($tujuan ?? '........................................')) !!}<br><br>
+{!! nl2br(e($tujuan ?? '........................................')) !!}<br>
 di Tempat
 </p>
 
 <div class="content">
 <p>Dengan hormat,</p>
-
 <p>
 Sehubungan dengan akan diselenggarakannya kegiatan
 <strong>{{ $nama_kegiatan ?? '................................' }}</strong>
@@ -140,7 +139,7 @@ yang akan dilaksanakan pada:
 
 <p>
 Maka kami selaku panitia pelaksana kegiatan tersebut bermaksud untuk
-mengundang <strong>{{ $nama_tamu ?? 'Bapak/Ibu' }}</strong>
+mengundang <strong>{{ Auth::user()->name }}</strong>
 sebagai tamu undangan dalam kegiatan tersebut.
 </p>
 
@@ -150,7 +149,7 @@ kami ucapkan terima kasih.
 </p>
 </div>
 
-{{-- ✅ TANDA TANGAN --}}
+{{-- TANDA TANGAN --}}
 <table class="ttd">
 <tr>
     <td>
