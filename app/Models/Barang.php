@@ -8,7 +8,7 @@ class Barang extends Model
 {
     protected $table = 'barang';
     protected $primaryKey = 'id_barang';
-    public $incrementing = false;
+    public $incrementing = false; // matikan auto-increment karena ID diisi trigger
     public $timestamps = false;
     protected $fillable = [
         'nama',

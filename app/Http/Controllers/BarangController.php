@@ -21,6 +21,12 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
+
+    $request->validate([
+        'nama'  => 'required|string|max:50',
+        'harga' => 'required|integer|min:0',
+    ]);
+
         Barang::create($request->only('nama','harga'));
         return redirect()->route('barang.index');
     }
@@ -46,16 +52,19 @@ class BarangController extends Controller
 
     // CETAK PDF
     public function cetak(Request $request)
-    {
-        $selected = $request->selected_barang;
-        $x = $request->x;
-        $y = $request->y;
-
-        $data = Barang::whereIn('id_barang', $selected)->get();
-
-        $start = ($y - 1) * 5 + ($x - 1);
-
-        $pdf = Pdf::loadView('barang.pdf', compact('data','start'));
-        return $pdf->stream('tag-harga.pdf');
+{
+    if (!$request->selected_barang) {
+        return back()->with('error', 'Pilih minimal 1 barang dulu!');
     }
+
+    $selected = $request->selected_barang;
+    $x = $request->x;
+    $y = $request->y;
+
+    $data = Barang::whereIn('id_barang', $selected)->get();
+    $start = ($y - 1) * 5 + ($x - 1);
+
+    $pdf = Pdf::loadView('barang.pdf', compact('data', 'start'));
+    return $pdf->stream('tag-harga.pdf');
+}
 }
