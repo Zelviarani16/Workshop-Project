@@ -47,8 +47,8 @@ class LoginController extends Controller
     public function __construct()
     {
         // Halaman  
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout'); 
+        $this->middleware('guest')->except('logout'); // halaman login -> hanya utk yg belum login dan kalau sudah login tdk bisa akses halaman login lagi
+        $this->middleware('auth')->only('logout'); // hanya bisa logout oleh user yg sudah login
     }
 
     

@@ -133,15 +133,15 @@
 <script>
 $(document).ready(function() {
 
-    var table = $('#tableBarang').DataTable({
+    var table = $('#tableBarang').DataTable({ // aktifkan datatables, otomatis muncul fitur search, show entries, sorting, pagination
         columnDefs: [
-            { targets: [0, 4], orderable: false, searchable: false }
+            { targets: [0, 4], orderable: false, searchable: false } // index 0 = checkbox dan index 4 = aksi tidak bisa di sort
         ],
         order: [],
     });
 
     // Simpan checkbox yang dicentang saat pindah halaman
-    var selectedIds = [];
+    var selectedIds = []; // utk simpan semua id yg dipilih
 
     // Saat user centang/uncentang checkbox
     $(document).on('change', 'input[name="selected_barang[]"]', function() {
@@ -151,9 +151,14 @@ $(document).ready(function() {
         } else {
             selectedIds = selectedIds.filter(v => v !== id);
         }
+            // Setiap kali checkbox berubah, cek statusnya:
+            // Kalau dicentang → tambahkan ID ke selectedIds (kalau belum ada)
+            // Kalau dilepas → hapus ID dari selectedIds dengan filter()
+
     });
 
     // Saat pindah halaman, restore checkbox yang sudah dipilih
+    // Saat sdh menceklis di halaman pertama dan ingin pindah ke halaman kedua checkbox tetap tersimpan begitu juga saat previous intinya menyimpan data checkbox yg sudah dicentang
     table.on('draw', function() {
         $('input[name="selected_barang[]"]').each(function() {
             if (selectedIds.includes($(this).val())) {
@@ -161,12 +166,14 @@ $(document).ready(function() {
             }
         });
         // Update checkAll status
+        // Utk membandingkan kalau total checkbox asli dgn yg sudah tercentang itu SAMA. maka checkbox header ikut tercentang
         var total = $('input[name="selected_barang[]"]').length;
         var checked = $('input[name="selected_barang[]"]:checked').length;
         $('#checkAll').prop('checked', total === checked && total > 0);
     });
 
     // Check All
+    // Saat checkbox header dicentang/dilepas, semua checkbox di halaman aktif ikut berubah dan selectedIds diupdate sekalian.
     $('#checkAll').on('change', function() {
         $('input[name="selected_barang[]"]').each(function() {
             $(this).prop('checked', $('#checkAll').is(':checked'));
@@ -186,9 +193,9 @@ $(document).ready(function() {
             alert('Pilih minimal 1 barang dulu!');
             return false;
         }
-        // Hapus hidden input lama
+        // Hapus semua sisa hidden input dari klik sebelumnya
         $(this).find('.hidden-selected').remove();
-        // Inject ulang dari selectedIds
+        // Inject ulang dari selectedIds. selectedIds isinya semua ID yang pernah dicentang dari semua halaman:
         selectedIds.forEach(function(id) {
             $('#formCetak').append(
                 '<input type="hidden" class="hidden-selected" name="selected_barang[]" value="' + id + '">'

@@ -52,7 +52,8 @@ class BarangController extends Controller
 
     // CETAK PDF
     public function cetak(Request $request)
-{
+    {
+    // Alert kalau tidak ada barang yg dipilih
     if (!$request->selected_barang) {
         return back()->with('error', 'Pilih minimal 1 barang dulu!');
     }
@@ -61,6 +62,7 @@ class BarangController extends Controller
     $x = $request->x;
     $y = $request->y;
 
+    //  whereIn('id_barang', $selected) artinya: ambil semua barang yang id_barang-nya ada di dalam array $selected.
     $data = Barang::whereIn('id_barang', $selected)->get();
     $start = ($y - 1) * 5 + ($x - 1);
 

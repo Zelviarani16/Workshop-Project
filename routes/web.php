@@ -5,6 +5,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LatihanJsController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\UndanganController;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,6 @@ Route::get('/auth/google/callback', [AuthController::class, 'callbackGoogle']);
     return view('sertifikat');
 });
 
-Route::get('/pengumuman', [PdfController::class, 'pengumuman']);
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/sertifikat', [PdfController::class, 'sertifikat'])
@@ -55,4 +55,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('barang/cetak', [BarangController::class, 'cetak'])->name('barang.cetak');
 
     Route::resource('barang', BarangController::class);
+
+
+
+    Route::get('tm4/tabel-biasa', [LatihanJsController::class, 'tabelBiasa'])
+     ->name('tm4.tabel-biasa');
+
+Route::get('tm4/datatables', [LatihanJsController::class, 'datatables'])
+     ->name('tm4.datatables');
+
+Route::get('tm4/select', [LatihanJsController::class, 'select'])
+     ->name('tm4.select');
 });

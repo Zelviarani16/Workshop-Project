@@ -12,21 +12,20 @@
 
 table {
     width: 200mm;
-    border-collapse: collapse;
+    border-collapse: collapse; 
     table-layout: fixed;
     page-break-inside: avoid;
 }
-
+ 
 td {
-    width: 38mm;
+    /* l = 3,8 cm dan t = 1,85 cm */
+    width: 38mm; 
     height: 18.5mm;
     text-align: center;
     vertical-align: middle;
     font-family: Arial, sans-serif;
     padding: 0,5mm;
     padding-left: 4mm;
-
-
 }
 
 .nama {
@@ -41,11 +40,19 @@ td {
 
 <table>
 @php $index = 0; @endphp
+<!-- Loop 8x = 8 baris -->
 @for ($row = 0; $row < 8; $row++)
 <tr>
+    <!-- Loop 5x = 5 kolom -->
     @for ($col = 0; $col < 5; $col++)
     <td>
-        @if($index >= $start && isset($data[$index - $start]))
+    <!-- Syarat 1 — $index >= $start
+    Apakah slot ini sudah melewati posisi awal yang diinput user? Kalau belum → slot kosong (label sudah terpakai).
+    Jangan cetak apa-apa sebelum posisi awal.
+
+    Syarat 2 — isset($data[$index - $start])
+    Apakah masih ada barang yang belum dicetak? Kalau tidak ada → slot kosong (sisa label tidak terpakai). -->
+    @if($index >= $start && isset($data[$index - $start]))
         <div class="label-wrap">
             <div class="label-inner">
                 <div class="nama">{{ $data[$index - $start]->nama }}</div>

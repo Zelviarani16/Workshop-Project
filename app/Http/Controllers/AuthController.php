@@ -18,6 +18,7 @@ class AuthController extends Controller
 {
     public function redirectGoogle() 
     {
+        // Socialite membaca konfigurasi  dari google yg sudah kita setting di config/services dan di .env
         return Socialite::driver('google')->redirect();
     }
 

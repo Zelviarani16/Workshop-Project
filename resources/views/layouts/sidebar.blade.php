@@ -55,6 +55,30 @@
                     </a>
                   </li>
 
+                  
+                    <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('tabel-biasa') ? 'active' : '' }}"
+                      href="{{ route('tm4.tabel-biasa') }}">
+                        Tabel Biasa
+                    </a>
+                  </li>
+
+
+                  <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('datatables') ? 'active' : '' }}"
+                      href="{{ route('tm4.datatables') }}">
+                        DataTables
+                    </a>
+                  </li>
+
+                  
+                  <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('select') ? 'active' : '' }}"
+                      href="{{ route('tm4.select') }}">
+                        Select & Select2
+                    </a>
+                  </li>
+
                 </ul>
               </div>
             </li>
