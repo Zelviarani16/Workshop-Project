@@ -99,7 +99,7 @@
 
                     <div class="form-group">
                         <label>ID Barang</label>
-                        <!-- readonly: ID tidak bisa diubah  -->
+                        <!-- readonly -->
                         <input type="text" class="form-control"
                                id="modalId" readonly>
                     </div>
@@ -129,8 +129,8 @@
                         class="btn btn-gradient-primary btn-rounded">
                     <i class="mdi mdi-content-save"></i> Ubah
                 </button>
-<button type="button" onclick="$('#modalEditHapus').modal('hide')"
-        class="btn btn-gradient-secondary btn-rounded">
+                <button type="button" onclick="$('#modalEditHapus').modal('hide')"
+                        class="btn btn-gradient-secondary btn-rounded">
 
                     Batal
                 </button>
@@ -145,13 +145,15 @@
 
 @push('script')
 <script>
+
+// Memastikan kode hanya jalan setelah semua HTML selesai di load browser
 $(document).ready(function () {
 
     var counter    = 1;       // untuk ID berurutan
     var selectedRow = null;   // simpan baris yang diklik
 
 
-    // ── TUGAS 2: Tambah Barang ────────────────────────────
+    // ======== TUGAS 2: Tambah Barang ===========
     $('#btnTambah').on('click', function () {
         var form = document.getElementById('formTambah');
         var btn  = $('#btnTambah');
@@ -166,6 +168,7 @@ $(document).ready(function () {
         btn.prop('disabled', true);
         btn.html('<span class="spinner-border spinner-border-sm mr-1"></span> Menambahkan...');
 
+        setTimeout(function(){
         var nama  = $('#inputNama').val();
         var harga = parseInt($('#inputHarga').val());
         var id    = 'BRG-' + String(counter).padStart(3, '0'); // BRG-001, BRG-002
@@ -196,10 +199,11 @@ $(document).ready(function () {
 
         btn.prop('disabled', false);
         btn.html('<i class="mdi mdi-plus"></i> Tambah');
+    }, 500);
+
     });
 
-
-    // ── TUGAS 3: Buka Modal ───────────────────────────────
+    // ===== TUGAS 3: Buka Modal ==========
     function bukaModal(row) {
         selectedRow = row; // simpan baris yang diklik
 
@@ -211,8 +215,7 @@ $(document).ready(function () {
         $('#modalEditHapus').modal('show');
     }
 
-
-    // ── TUGAS 3: Ubah ─────────────────────────────────────
+    // ====== TUGAS 3: Ubah ===============
     $('#btnModalUbah').on('click', function () {
         var form = document.getElementById('formModal');
         var btn  = $('#btnModalUbah');
@@ -223,36 +226,32 @@ $(document).ready(function () {
             return;
         }
 
-        // Tugas 1: spinner
-        btn.prop('disabled', true);
-        btn.html('<span class="spinner-border spinner-border-sm mr-1"></span> Mengubah...');
-
         var namaBaru  = $('#modalNama').val();
         var hargaBaru = parseInt($('#modalHarga').val());
 
-        // Update data di atribut baris agar konsisten kalau diklik lagi
+        // Update data di atribut baris 
         $(selectedRow).data('nama',  namaBaru);
         $(selectedRow).data('harga', hargaBaru);
 
-        // Update tampilan teks di tabel (TIDAK ke database)
         $(selectedRow).find('td:eq(1)').text(namaBaru);
         $(selectedRow).find('td:eq(2)').text('Rp ' + hargaBaru.toLocaleString('id-ID'));
 
-        // Tutup modal setelah berhasil
         $('#modalEditHapus').modal('hide');
 
         btn.prop('disabled', false);
         btn.html('<i class="mdi mdi-content-save"></i> Ubah');
-    });
+    
+        });
 
 
-    // ── TUGAS 3: Hapus ─────────────────────────────────────
+
+
+    // ====== TUGAS 3: Hapus ============
     $('#btnModalHapus').on('click', function () {
 
-        // Hapus baris dari tabel (TIDAK ke database)
+
         $(selectedRow).remove();
 
-        // Kalau tabel kosong, tampilkan pesan kosong lagi
         if ($('#bodyTabel tr').length === 0) {
             $('#bodyTabel').append(
                 '<tr id="emptyRow"><td colspan="3" class="text-center text-muted py-3">' +
@@ -260,7 +259,6 @@ $(document).ready(function () {
             );
         }
 
-        // Tutup modal setelah berhasil
         $('#modalEditHapus').modal('hide');
     });
 

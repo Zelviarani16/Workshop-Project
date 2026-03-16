@@ -48,7 +48,7 @@
         </div>
     </form>
 
-    {{-- Button di LUAR form --}}
+    <!-- {{-- Button di LUAR form --}} -->
     <button type="button" id="btnTambah"
             class="btn btn-gradient-primary btn-rounded mb-4">
         <i class="mdi mdi-plus"></i> Tambah
@@ -56,7 +56,7 @@
 
     <hr>
 
-    {{-- ── TUGAS 2: DATATABLES + TUGAS 3: klik baris → modal ── --}}
+    <!-- {{-- ── TUGAS 2: DATATABLES + TUGAS 3: klik baris → modal ── --}} -->
     <h5 class="mb-3">Data Barang</h5>
     <div class="table-responsive">
         <table class="table table-hover" id="tabelBarang" style="width:100%">
@@ -77,7 +77,7 @@
 </div>
 
 
-{{-- ── TUGAS 3: MODAL EDIT & HAPUS ── --}}
+<!-- {{-- ── TUGAS 3: MODAL EDIT & HAPUS ── --}} -->
 <div class="modal fade" id="modalEditHapus" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -169,12 +169,13 @@ $(document).ready(function () {
         btn.prop('disabled', true);
         btn.html('<span class="spinner-border spinner-border-sm mr-1"></span> Menambahkan...');
 
+setTimeout(function(){
         var nama  = $('#inputNama').val();
         var harga = parseInt($('#inputHarga').val());
         var id    = 'BRG-' + String(counter).padStart(3, '0');
         counter++;
 
-        // Cara tambah baris di DataTables berbeda dari tabel biasa!
+        // TAMBAH BARIS
         // Tabel biasa : $('#bodyTabel').append('<tr>...')
         // DataTables  : table.row.add([...]).draw().node()
         var rowNode = table.row.add([
@@ -182,7 +183,7 @@ $(document).ready(function () {
             nama,
             'Rp ' + harga.toLocaleString('id-ID')
         ]).draw().node();
-        // .draw()  → render ulang tabel supaya baris baru muncul
+        // .draw()  → render ulang tabel supaya baris baru muncul tp jangan reset hal pagination
         // .node()  → ambil elemen <tr> yang baru dibuat
 
         // Simpan data asli di <tr> untuk dipakai saat klik
@@ -191,7 +192,7 @@ $(document).ready(function () {
             .data('nama',  nama)
             .data('harga', harga)
             .on('click', function () {
-                bukaModal(this); // Tugas 3: klik baris → buka modal
+                bukaModal(this); 
             });
 
         // Tugas 2: kosongkan input
@@ -200,7 +201,8 @@ $(document).ready(function () {
 
         btn.prop('disabled', false);
         btn.html('<i class="mdi mdi-plus"></i> Tambah');
-    });
+}, 500);
+});
 
 
     // ── TUGAS 3: Buka Modal ───────────────────────────────
@@ -233,7 +235,7 @@ $(document).ready(function () {
         var namaBaru  = $('#modalNama').val();
         var hargaBaru = parseInt($('#modalHarga').val());
 
-        // Cara update baris di DataTables:
+        // UBAH
         // Tabel biasa : $(td).text('...')
         // DataTables  : table.row(node).data([...]).draw(false)
         // draw(false) → jangan reset halaman pagination
@@ -263,7 +265,6 @@ $(document).ready(function () {
     // ── TUGAS 3: Hapus ─────────────────────────────────────
     $('#btnModalHapus').on('click', function () {
 
-        // Cara hapus baris di DataTables:
         // Tabel biasa : $(row).remove()
         // DataTables  : table.row(node).remove().draw()
         table.row(selectedRow).remove().draw();

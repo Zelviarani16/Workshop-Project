@@ -18,18 +18,10 @@
 <div class="card">
 <div class="card-body">
 
-    {{--
-        PERUBAHAN 1:
-        Tambah id="formEditBarang" dan novalidate
-
-        SEBELUM : <form action="{{ route('barang.update', $barang->id_barang) }}" method="POST">
-        SESUDAH  : <form action="..." method="POST" id="formEditBarang" novalidate>
-    --}}
     <form action="{{ route('barang.update', $barang->id_barang) }}" method="POST" id="formEditBarang" novalidate>
         @csrf
         @method('PUT')
 
-        {{-- NAMA - tidak ada perubahan --}}
         <div class="form-group">
             <label>Nama Barang</label>
             <input type="text"
@@ -43,7 +35,6 @@
             @enderror
         </div>
 
-        {{-- HARGA - tidak ada perubahan --}}
         <div class="form-group">
             <label>Harga</label>
             <input type="number"
@@ -60,13 +51,6 @@
 
     </form>
 
-    {{--
-        PERUBAHAN 2:
-        Button dipindah ke LUAR </form>, type diubah jadi "button"
-
-        SEBELUM : <button type="submit" class="btn btn-gradient-primary btn-rounded">
-        SESUDAH  : (di luar form, type="button", punya id="btnUpdate")
-    --}}
     <button type="button" id="btnUpdate" class="btn btn-gradient-primary btn-rounded">
         <i class="mdi mdi-content-save"></i> Update
     </button>
@@ -82,11 +66,6 @@
 
 @endsection
 
-{{--
-    PERUBAHAN 3:
-    Tambah @push('script') di paling bawah
-    Sebelumnya tidak ada sama sekali
---}}
 @push('script')
 <script>
 $('#btnUpdate').on('click', function () {
@@ -105,7 +84,7 @@ $('#btnUpdate').on('click', function () {
     btn.prop('disabled', true);
     btn.html('<span class="spinner-border spinner-border-sm mr-1" role="status"></span> Mengupdate...');
 
-    // STEP 4 : submit form → data tetap tersimpan ke database
+    // STEP 4 : submit form 
     form.submit();
 });
 </script>

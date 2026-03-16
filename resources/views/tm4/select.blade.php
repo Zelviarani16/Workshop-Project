@@ -2,11 +2,10 @@
 @section('title', 'Latihan JS — Select & Select2')
 
 @push('style')
-{{-- CSS Select2 --}}
+<!-- {{-- CSS Select2 --}} -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
       rel="stylesheet"/>
 <style>
-    /* Sesuaikan tinggi Select2 dengan input Bootstrap */
     .select2-container--default .select2-selection--single {
         height: 38px;
         border: 1px solid #ced4da;
@@ -36,12 +35,8 @@
 </div>
 
 <div class="row">
-<!-- 
-    {{-- =====================================================
-         CARD 1 : SELECT BIASA
-         Modul: "Card pertama beri judul Select,
-                 gunakan element select biasa"
-    ===================================================== --}} -->
+
+<!-- CARD 1 = SELECT BIASA -->
     <div class="col-md-6 grid-margin stretch-card">
     <div class="card">
 
@@ -51,7 +46,6 @@
 
         <div class="card-body">
 
-            {{-- Input tambah kota --}}
             <div class="form-group">
                 <label>Tambah Kota</label>
                 <div class="input-group">
@@ -69,12 +63,7 @@
                 </div>
             </div>
 
-            <!-- {{-- Select biasa --}}
-            {{--
-                Modul: "Form select kota adalah sebuah element input select"
-                Modul: "Jadikan nama kota sebagai value dan nilai tampil"
-                onchange → event yang terpicu saat pilihan berubah
-            --}} -->
+
             <div class="form-group">
                 <label>Pilih Kota</label>
                 <select class="form-control" id="selectKota1">
@@ -82,10 +71,6 @@
                 </select>
             </div>
 
-            <!-- {{--
-                Modul: "Setiap kota yang terpilih akan ditampilkan
-                         pada Kota Terpilih"
-            --}} -->
             <div class="form-group">
                 <label>Kota Terpilih</label>
                 <div class="form-control bg-light" id="kotaTerpilih1"
@@ -101,13 +86,6 @@
 <!-- 
     {{-- =====================================================
          CARD 2 : SELECT2
-         Modul: "Card kedua beri judul Select 2,
-                 gunakan element select2"
-         Bedanya dari Card 1:
-         - Dropdown punya kotak pencarian otomatis
-         - Cara inisialisasi pakai $('#selectKota2').select2()
-         - Cara tambah option berbeda (pakai .trigger('change'))
-         - Event change pakai .on('change') bukan onchange HTML
     ===================================================== --}} -->
     <div class="col-md-6 grid-margin stretch-card">
     <div class="card">
@@ -118,7 +96,6 @@
 
         <div class="card-body">
 
-            {{-- Input tambah kota --}}
             <div class="form-group">
                 <label>Tambah Kota</label>
                 <div class="input-group">
@@ -136,7 +113,7 @@
                 </div>
             </div>
 
-            {{-- Select2 (tampilannya sama di HTML, bedanya di JS) --}}
+            <!-- {{-- Select2 (tampilannya sama di HTML, bedanya di JS) --}} -->
             <div class="form-group">
                 <label>Pilih Kota</label>
                 <select class="form-control" id="selectKota2">
@@ -168,12 +145,9 @@
 $(document).ready(function () {
 
     // ── Inisialisasi Select2 ──────────────────────────────────
-    // Card 1 (select biasa) tidak perlu inisialisasi apapun
-    // Card 2 (select2) WAJIB dipanggil .select2() agar aktif
-    // Efeknya: dropdown Card 2 punya kotak pencarian otomatis
     $('#selectKota2').select2({
         placeholder: '-- Pilih Kota --',
-        allowClear: true   // muncul tombol X untuk reset pilihan
+        allowClear: true  
     });
 
 
@@ -187,25 +161,22 @@ $(document).ready(function () {
         }
 
         // Tambah <option> baru ke select
-        // Modul: "Jadikan nama kota sebagai value dan nilai tampil"
-        // value = nama kota, text = nama kota
         $('#selectKota1').append(
             '<option value="' + kota + '">' + kota + '</option>'
         );
 
-        $('#inputKota1').val(''); // kosongkan input
+        $('#inputKota1').val(''); 
     });
 
 
     // ── CARD 1 : Tampilkan kota terpilih (select biasa) ──────
-    // Select biasa pakai event .on('change')
+    // Select biasa pakai event .on('change') - Ambil nilai dgn .val() lalu tampilkan ke div kota terpilih pakai .text
     $('#selectKota1').on('change', function () {
         var pilihan = $(this).val();
 
         if (pilihan === '' || pilihan === null) {
             $('#kotaTerpilih1').text('Belum ada kota dipilih').css('color', '#6c757d');
         } else {
-            // Modul: "Setiap kota yang terpilih ditampilkan pada Kota Terpilih"
             $('#kotaTerpilih1').text(pilihan).css('color', '#3f51b5');
         }
     });
@@ -220,13 +191,11 @@ $(document).ready(function () {
             return;
         }
 
-        // Cara tambah option ke Select2 BERBEDA dari select biasa!
-        //
+        // TAMBAH OPTION ===================
         // Select biasa : $('#select').append('<option>...')
         //
         // Select2      : harus pakai new Option() lalu .trigger('change')
-        //                .trigger('change') → memberitahu Select2
-        //                bahwa ada perubahan di option
+        //                .trigger('change') → memberitahu Select2 bahwa ada perubahan di option
         var option = new Option(kota, kota, false, false);
         $('#selectKota2').append(option).trigger('change');
 
@@ -235,8 +204,6 @@ $(document).ready(function () {
 
 
     // ── CARD 2 : Tampilkan kota terpilih (Select2) ───────────
-    // Select2 juga pakai .on('change'), sama seperti select biasa
-    // Bedanya $(this).val() pada Select2 bisa return null kalau dikosongkan
     $('#selectKota2').on('change', function () {
         var pilihan = $(this).val();
 
