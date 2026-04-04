@@ -94,6 +94,32 @@
                     </a>
                   </li>
 
+                  
+                  <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('pesan') ? 'active' : '' }}"
+                      href="{{ route('pesan.index') }}">
+                        Pesan
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('pesanan') ? 'active' : '' }}"
+                      href="{{ route('vendor.pesanan') }}">
+                        Recap
+                    </a>
+                  </li>
+
+                                    {{-- <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('welcome-fabo') ? 'active' : '' }}"
+                      href="{{ route('welcome-fabo') }}">
+                        Welcome Fabo
+                    </a>
+                  </li> --}}
+
+                                                  {{-- <li class="nav-item">
+<a href="{{ route('kartu.show', ['kodeQr' => 'luka-bakar']) }}">Card</a>
+                  </li> --}}
+
 
                 </ul>
               </div>

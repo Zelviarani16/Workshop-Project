@@ -3,12 +3,16 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KartuController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LatihanJsController;
+use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\UndanganController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -84,3 +88,61 @@ Route::get('/kasir/cari-barang', [KasirController::class, 'cariBarang'])->name('
 Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
 
 });
+
+
+// ============ CUSTOMER ============
+// Halaman pemesanan (tidak perlu login)
+Route::get('/pesan', [CustomerController::class, 'index'])->name('pesan.index');
+
+// AJAX: ambil menu berdasarkan vendor yang dipilih
+Route::get('/pesan/menu', [CustomerController::class, 'getMenu'])->name('pesan.menu');
+
+// Proses checkout: simpan pesanan + minta token Midtrans
+Route::post('/pesan/checkout', [CustomerController::class, 'checkout'])->name('pesan.checkout');
+
+// Halaman status setelah bayar
+Route::get('/pesan/status/{idpesanan}', [CustomerController::class, 'status'])->name('pesan.status');
+
+
+// ============ MIDTRANS WEBHOOK ============
+// Endpoint ini dipanggil otomatis oleh Midtrans saat pembayaran berhasil
+// PENTING: harus dikecualikan dari CSRF verification!
+Route::post('/midtrans/callback', [MidtransController::class, 'callback'])
+     ->name('midtrans.callback');
+
+// VENDOR
+// Semua route vendor pakai middleware auth (harus login)
+Route::middleware(['auth'])->prefix('vendor')->name('vendor.')->group(function () {
+    // Kelola Menu
+    Route::get('/menu', [VendorController::class, 'menu'])->name('menu');
+    // Tambah menu
+    Route::post('/menu', [VendorController::class, 'storeMenu'])->name('menu.store');
+    // Hapus menu
+    Route::delete('/menu/{idmenu}', [VendorController::class, 'destroyMenu'])->name('menu.destroy');
+    // Lihat pesanan lunas
+    Route::get('/pesanan', [VendorController::class, 'pesanan'])->name('pesanan');
+});
+
+//     Route::get('welcome-fabo', function () {
+//         return view('welcome-fabo');
+//     })->name('welcome-fabo');
+
+
+//     Route::get('/belajar',         fn() => view('belajar.index')  )->name('belajar');
+// Route::get('/tentang',         fn() => view('tentang')         )->name('tentang');
+// Route::get('/darurat',         fn() => view('darurat')         )->name('darurat');
+ 
+// Sub-halaman belajar
+// Route::get('/belajar/luka',    fn() => view('belajar.luka')   )->name('belajar.luka');
+// Route::get('/belajar/bakar',   fn() => view('belajar.bakar')  )->name('belajar.bakar');
+// Route::get('/belajar/darurat', fn() => view('belajar.darurat'))->name('belajar.darurat');
+// Route::get('/belajar/rjp',     fn() => view('belajar.rjp')    )->name('belajar.rjp');
+ 
+
+
+// Route::get('/kartu/{kodeQr}', [KartuController::class, 'show'])
+//     ->name('kartu.show');
+
+// ===== KARTU EKSKLUSIF (dari scan QR) =====
+// URL: /kartu/{kode}
+// Contoh QR mengarah ke: https://fabo.id/kartu/luka-bakar
