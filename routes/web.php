@@ -77,16 +77,27 @@ Route::middleware(['auth'])->group(function () {
     //     return view('tm4/tabel-biasa');
     // })->name('tm4.tabel-biasa');
 
-Route::get('wilayah', [WilayahController::class, 'index'])->name('wilayah.index');
-Route::get('wilayah/kota', [WilayahController::class, 'getKota'])->name('wilayah.kota');
-Route::get('wilayah/kecamatan', [WilayahController::class, 'getKecamatan'])->name('wilayah.kecamatan');
-Route::get('wilayah/kelurahan', [WilayahController::class, 'getKelurahan'])->name('wilayah.kelurahan');
+    Route::get('wilayah', [WilayahController::class, 'index'])->name('wilayah.index');
+    Route::get('wilayah/kota', [WilayahController::class, 'getKota'])->name('wilayah.kota');
+    Route::get('wilayah/kecamatan', [WilayahController::class, 'getKecamatan'])->name('wilayah.kecamatan');
+    Route::get('wilayah/kelurahan', [WilayahController::class, 'getKelurahan'])->name('wilayah.kelurahan');
 
 
-Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
-Route::get('/kasir/cari-barang', [KasirController::class, 'cariBarang'])->name('kasir.cariBarang');
-Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
+    Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
+    Route::get('/kasir/cari-barang', [KasirController::class, 'cariBarang'])->name('kasir.cariBarang');
+    Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
 
+
+    Route::prefix('vendor')->name('vendor.')->group(function () {
+    // Kelola Menu
+    Route::get('/menu', [VendorController::class, 'menu'])->name('menu');
+    // Tambah menu
+    Route::post('/menu', [VendorController::class, 'storeMenu'])->name('menu.store');
+    // Hapus menu
+    Route::delete('/menu/{idmenu}', [VendorController::class, 'destroyMenu'])->name('menu.destroy');
+    // Lihat pesanan lunas
+    Route::get('/pesanan', [VendorController::class, 'pesanan'])->name('pesanan');
+});
 });
 
 
@@ -107,21 +118,22 @@ Route::get('/pesan/status/{idpesanan}', [CustomerController::class, 'status'])->
 // ============ MIDTRANS WEBHOOK ============
 // Endpoint ini dipanggil otomatis oleh Midtrans saat pembayaran berhasil
 // PENTING: harus dikecualikan dari CSRF verification!
+// Midtrans TIDAK BISA kirim CSRF token karena dia server eksternal
 Route::post('/midtrans/callback', [MidtransController::class, 'callback'])
      ->name('midtrans.callback');
 
 // VENDOR
 // Semua route vendor pakai middleware auth (harus login)
-Route::middleware(['auth'])->prefix('vendor')->name('vendor.')->group(function () {
-    // Kelola Menu
-    Route::get('/menu', [VendorController::class, 'menu'])->name('menu');
-    // Tambah menu
-    Route::post('/menu', [VendorController::class, 'storeMenu'])->name('menu.store');
-    // Hapus menu
-    Route::delete('/menu/{idmenu}', [VendorController::class, 'destroyMenu'])->name('menu.destroy');
-    // Lihat pesanan lunas
-    Route::get('/pesanan', [VendorController::class, 'pesanan'])->name('pesanan');
-});
+// Route::middleware(['auth'])->prefix('vendor')->name('vendor.')->group(function () {
+//     // Kelola Menu
+//     Route::get('/menu', [VendorController::class, 'menu'])->name('menu');
+//     // Tambah menu
+//     Route::post('/menu', [VendorController::class, 'storeMenu'])->name('menu.store');
+//     // Hapus menu
+//     Route::delete('/menu/{idmenu}', [VendorController::class, 'destroyMenu'])->name('menu.destroy');
+//     // Lihat pesanan lunas
+//     Route::get('/pesanan', [VendorController::class, 'pesanan'])->name('pesanan');
+// });
 
 //     Route::get('welcome-fabo', function () {
 //         return view('welcome-fabo');
