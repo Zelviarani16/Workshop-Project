@@ -46,7 +46,11 @@ return new class extends Migration {
             $table->smallInteger('status_bayar')->default(0);
             // Kolom tambahan untuk Midtrans
             $table->string('snap_token')->nullable();       // token dari Midtrans
+            // Tanpa kolom ini, MidtransController tidak bisa tahu pesanan mana yang harus diubah statusnya!
             $table->string('midtrans_order_id')->nullable(); // ID unik pesanan di Midtrans
+            // Snap token 
+            // Kenapa disimpan ke database? Supaya kalau customer mau bayar lagi (misal popup ditutup), kamu bisa ambil snap_token yang sama dari database tanpa perlu minta baru ke Midtrans.
+
         });
 
         // Tabel detail_pesanan (item per transaksi)

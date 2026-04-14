@@ -7,8 +7,10 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {{-- Snap.js dari Midtrans untuk tampilkan popup QR --}}
+{{-- mengunduh library snap.js dari server Midtrans ke browser kita --}}
 <script src="https://app.sandbox.midtrans.com/snap/snap.js"
-        data-client-key="{{ config('midtrans.client_key') }}"></script>
+        data-client-key="{{ config('midtrans.client_key') }}">
+</script>
 
 <div class="page-header">
     <div class="d-flex justify-content-between align-items-center w-100">
@@ -27,12 +29,13 @@
     <div class="card-body">
         <h4 class="card-title">Pilih Menu</h4>
 
-        {{-- DROPDOWN LEVEL 1: Vendor --}}
+        {{-- DROPDOWN LEVEL 1: Vendor dirender daru data yg dikirim dari controller --}}
         <div class="form-group">
             <label>Pilih Vendor / Kantin</label>
             <select id="vendor" class="form-control">
                 <option value="0">-- Pilih Vendor --</option>
                 @foreach($vendors as $v)
+                        {{-- value = idvendor, dipakai AJAX untuk filter menu --}}
                     <option value="{{ $v->idvendor }}">{{ $v->nama_vendor }}</option>
                 @endforeach
             </select>
@@ -41,6 +44,7 @@
         {{-- DROPDOWN LEVEL 2: Menu (diisi via AJAX) --}}
         <div class="form-group">
             <label>Pilih Menu</label>
+            {{-- AWALNYA DISABLED --}}
             <select id="menu" class="form-control" disabled>
                 <option value="0">-- Pilih Menu --</option>
             </select>
@@ -213,8 +217,10 @@ function hapusBaris(index) {
 // ============================================================
 $('#vendor').on('change', function() {
     const idvendor = $(this).val();
+    // this --> elemen #vendor yg berubah
+    // .val() --> ambil value dari option yg dipilih
 
-    // Reset dropdown menu
+    // Reset dropdown menu, krn kalau vendor diganti menu lama harus hilang dulu sebelum menu baru dimuat
     $('#menu').html('<option value="0">-- Pilih Menu --</option>').prop('disabled', true);
     menuDipilih = null;
     $('#harga_menu').val('');
@@ -225,6 +231,7 @@ $('#vendor').on('change', function() {
 
     $('#status-menu').text('Memuat menu...');
 
+    // Browser kirim request ke /pesan/menu?idvendor=... lalu masuk web.php
     $.ajax({
         url: '/pesan/menu',
         method: 'GET',
@@ -265,12 +272,14 @@ $('#menu').on('change', function() {
         return;
     }
 
+    // Tidak perlu AJAX lagi! Data sudah ada di data-attribute
     menuDipilih = {
         idmenu   : idmenu,
         nama_menu: selected.data('nama'),
         harga    : parseInt(selected.data('harga')),
     };
 
+    // Tampilkan harga otomatis di field read only
     $('#harga_menu').val(formatRupiah(menuDipilih.harga));
     cekTombolTambah();
 });
@@ -293,16 +302,20 @@ function tambahKeTable() {
     btnTambah.prop('disabled', true);
     btnTambah.html('<span class="spinner-border spinner-border-sm mr-1"></span> Menambahkan...');
 
+    // cartItems = memori sementara di browser
+    // Menyimpan semua barang sebelum dikirim ke server
     // Cek apakah menu yang sama sudah ada
     const indexExisting = cartItems.findIndex(
         item => item.idmenu === menuDipilih.idmenu
     );
 
     if (indexExisting !== -1) {
+        // Menu sama sudah ada → update jumlah saja
         cartItems[indexExisting].jumlah   += jumlah;
         cartItems[indexExisting].subtotal  = cartItems[indexExisting].jumlah
                                            * cartItems[indexExisting].harga;
     } else {
+        // Menu baru → push ke array
         cartItems.push({
             idmenu   : menuDipilih.idmenu,
             nama_menu: menuDipilih.nama_menu,
@@ -313,20 +326,24 @@ function tambahKeTable() {
         });
     }
 
-    renderTable();
+    // tampilkan cartItems ke tabel HTML
+    renderTable(); 
     btnTambah.html('<i class="mdi mdi-plus"></i> Tambahkan');
+    // // kosongkan form input
     resetFormMenu();
 }
 
 // ============================================================
 // FUNGSI: Checkout - simpan pesanan + tampilkan QR Midtrans
 // ============================================================
+// AJAX POST
 function prosesCheckout() {
     if (cartItems.length === 0) return;
 
     const total    = cartItems.reduce((sum, item) => sum + item.subtotal, 0);
     const btnBayar = $('#btn-bayar');
 
+    // Spinner: cegah double click
     btnBayar.prop('disabled', true);
     btnBayar.html('<span class="spinner-border spinner-border-sm mr-1"></span> Memproses...');
 
@@ -388,6 +405,8 @@ function prosesCheckout() {
         Swal.fire('Error!', 'Gagal memproses pesanan.', 'error');
     });
 }
+
+
 </script>
 
 @endsection

@@ -7,3 +7,6 @@ return [
     'is_sanitized'  => env('MIDTRANS_IS_SANITIZED', true),
     'is_3ds'        => env('MIDTRANS_IS_3DS', true),
 ];
+
+// Jadi, di Controller sekarang bisa panggil: config('midtrans.server_key')
+// Laravel otomatis baca dari .env via file config ini

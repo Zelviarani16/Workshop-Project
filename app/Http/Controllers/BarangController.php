@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
 
 class BarangController extends Controller
 {
@@ -51,9 +53,10 @@ class BarangController extends Controller
     }
 
     // CETAK PDF
-    public function cetak(Request $request)
-    {
-    // Alert kalau tidak ada barang yg dipilih
+
+
+public function cetak(Request $request)
+{
     if (!$request->selected_barang) {
         return back()->with('error', 'Pilih minimal 1 barang dulu!');
     }
@@ -62,11 +65,22 @@ class BarangController extends Controller
     $x = $request->x;
     $y = $request->y;
 
-    //  whereIn('id_barang', $selected) artinya: ambil semua barang yang id_barang-nya ada di dalam array $selected.
     $data = Barang::whereIn('id_barang', $selected)->get();
     $start = ($y - 1) * 5 + ($x - 1);
 
-    $pdf = Pdf::loadView('barang.pdf', compact('data', 'start'));
+    $generator = new BarcodeGeneratorPNG();
+    $barcodes = [];
+    foreach ($data as $item) {
+        $png = $generator->getBarcode(
+            $item->id_barang,
+            $generator::TYPE_CODE_128,
+            1,
+            20
+        );
+        $barcodes[$item->id_barang] = 'data:image/png;base64,' . base64_encode($png);
+    }
+
+    $pdf = Pdf::loadView('barang.pdf', compact('data', 'start', 'barcodes'));
     return $pdf->stream('tag-harga.pdf');
 }
 }

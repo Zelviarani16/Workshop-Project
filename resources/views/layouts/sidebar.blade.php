@@ -109,6 +109,13 @@
                     </a>
                   </li>
 
+                  <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('customer') ? 'active' : '' }}"
+                      href="{{ route('customer.data') }}">
+                        Customer
+                    </a>
+                  </li>
+
                                     {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('welcome-fabo') ? 'active' : '' }}"
                       href="{{ route('welcome-fabo') }}">

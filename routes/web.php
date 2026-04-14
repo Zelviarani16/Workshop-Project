@@ -122,6 +122,19 @@ Route::get('/pesan/status/{idpesanan}', [CustomerController::class, 'status'])->
 Route::post('/midtrans/callback', [MidtransController::class, 'callback'])
      ->name('midtrans.callback');
 
+
+// Customer
+Route::get('/customer/data', [CustomerController::class, 'dataCustomer'])->name('customer.data');
+Route::get('/customer/tambah1', [CustomerController::class, 'tambahCustomer1'])->name('customer.tambah1');
+Route::post('/customer/tambah1', [CustomerController::class, 'storCustomer1'])->name('customer.store1');
+Route::get('/customer/tambah2', [CustomerController::class, 'tambahCustomer2'])->name('customer.tambah2');
+Route::post('/customer/tambah2', [CustomerController::class, 'storCustomer2'])->name('customer.store2');
+
+
+Route::get('/customer/edit/{id}',    [CustomerController::class, 'editCustomer'])->name('customer.edit');
+Route::post('/customer/update/{id}', [CustomerController::class, 'updateCustomer'])->name('customer.update');
+Route::post('/customer/delete/{id}', [CustomerController::class, 'destroyCustomer'])->name('customer.destroy');
+
 // VENDOR
 // Semua route vendor pakai middleware auth (harus login)
 // Route::middleware(['auth'])->prefix('vendor')->name('vendor.')->group(function () {
