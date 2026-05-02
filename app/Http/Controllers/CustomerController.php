@@ -311,4 +311,22 @@ public function storCustomer2(Request $request)
                      ->with('success', 'Customer berhasil ditambahkan!');
 }
 
+public function qrcode($idpesanan)
+{
+    $pesanan = Pesanan::with('details.menu')->findOrFail($idpesanan);
+
+    $qrCode = new QrCode(
+        data: (string) $pesanan->idpesanan,
+        encoding: new Encoding('UTF-8'),
+    );
+    $writer = new PngWriter();
+    $result = $writer->write($qrCode);
+    $qrBase64 = base64_encode($result->getString());
+
+    return view('customer.qrcode', compact('pesanan', 'qrBase64'));
+}
+
+
+
+
 }

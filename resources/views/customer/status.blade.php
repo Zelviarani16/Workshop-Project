@@ -64,10 +64,32 @@
         <i class="mdi mdi-plus"></i> Pesan Lagi
     </a>
 
+    <a href="{{ route('pesan.riwayat') }}" class="btn btn-gradient-info btn-rounded mt-3 mh-20">
+        <i></i> Riwayat Saya
+    </a>
+
 </div>
 </div>
 </div>
 </div>
+
+{{-- Simpan ke localStorage saat halaman status dibuka --}}
+{{-- Ini handle kasus bayar lewat simulator eksternal (onSuccess tidak terpanggil) --}}
+<script>
+@if($pesanan->status_bayar == 1)
+    const idpesanan = {{ $pesanan->idpesanan }};
+    const waktu     = new Date().toLocaleString('id-ID');
+
+    let riwayat = JSON.parse(localStorage.getItem('riwayat_pesanan') || '[]');
+
+    // Hindari duplikat kalau halaman ini dibuka berkali-kali
+    const sudahAda = riwayat.some(item => item.idpesanan == idpesanan);
+    if (!sudahAda) {
+        riwayat.push({ idpesanan: idpesanan, waktu: waktu });
+        localStorage.setItem('riwayat_pesanan', JSON.stringify(riwayat));
+    }
+@endif
+</script>
 
 @endsection
 

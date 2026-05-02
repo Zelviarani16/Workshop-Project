@@ -60,7 +60,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('barang/cetak', [BarangController::class, 'cetak'])->name('barang.cetak');
 
-    Route::resource('barang', BarangController::class);
+
+    // Scan barcode tag harga
+    Route::get('/barang/scan', [BarangController::class, 'scan'])->name('barang.scan');
+    Route::get('/barang/cari/{id_barang}', [BarangController::class, 'cariBarcode'])->name('barang.cari');
+
+
+    Route::resource('barang', BarangController::class)->except(['show']);
 
 
     Route::get('tm4/tabel-biasa', [LatihanJsController::class, 'tabelBiasa'])
@@ -97,6 +103,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/menu/{idmenu}', [VendorController::class, 'destroyMenu'])->name('menu.destroy');
     // Lihat pesanan lunas
     Route::get('/pesanan', [VendorController::class, 'pesanan'])->name('pesanan');
+
+    Route::get('/scan-qr', [VendorController::class, 'scanQr'])->name('scan-qr');
+    Route::get('/scan-qr/cari/{idpesanan}', [VendorController::class, 'cariPesanan'])->name('cari-pesanan');
 });
 });
 
@@ -134,6 +143,20 @@ Route::post('/customer/tambah2', [CustomerController::class, 'storCustomer2'])->
 Route::get('/customer/edit/{id}',    [CustomerController::class, 'editCustomer'])->name('customer.edit');
 Route::post('/customer/update/{id}', [CustomerController::class, 'updateCustomer'])->name('customer.update');
 Route::post('/customer/delete/{id}', [CustomerController::class, 'destroyCustomer'])->name('customer.destroy');
+
+
+
+// Halaman QR Code customer (bisa diakses kapan saja)
+Route::get('/pesan/qrcode/{idpesanan}', [CustomerController::class, 'qrcode'])->name('pesan.qrcode');
+
+// Halaman riwayat pesanan customer (dari localStorage)
+Route::get('/pesan/riwayat', function() {
+    return view('customer.riwayat');
+})->name('pesan.riwayat');
+
+
+
+
 
 // VENDOR
 // Semua route vendor pakai middleware auth (harus login)

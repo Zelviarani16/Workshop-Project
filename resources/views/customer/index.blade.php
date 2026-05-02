@@ -367,6 +367,15 @@ function prosesCheckout() {
             // snap.pay() adalah fungsi dari library Midtrans
             snap.pay(snapToken, {
                 onSuccess: function(result) {
+
+                    // Simpan idpesanan ke localStorage agar bisa diakses lagi
+                    let riwayat = JSON.parse(localStorage.getItem('riwayat_pesanan') || '[]');
+                    riwayat.push({
+                        idpesanan: idpesanan,
+                        waktu: new Date().toLocaleString('id-ID')
+                    });
+                    localStorage.setItem('riwayat_pesanan', JSON.stringify(riwayat));
+
                     // Pembayaran berhasil
                     Swal.fire({
                         icon : 'success',

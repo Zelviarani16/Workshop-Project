@@ -110,11 +110,31 @@
                   </li>
 
                   <li class="nav-item">
+                      <a class="nav-link" href="{{ route('barang.scan') }}">
+                          <span class="menu-title">Scan QR Tag Harga</span>
+                      </a>
+                  </li>
+
+                  <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('customer') ? 'active' : '' }}"
                       href="{{ route('customer.data') }}">
                         Customer
                     </a>
                   </li>
+
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ route('vendor.scan-qr') }}">
+                          <span class="menu-title">Scan QR Customer</span>
+                      </a>
+                  </li>
+
+
+                  {{-- <li class="nav-item">
+                      <a class="nav-link" href="{{ route('pesan.riwayat') }}">
+                          <i class="mdi mdi-history menu-icon"></i>
+                          <span class="menu-title">Riwayat Pesanan</span>
+                      </a>
+                  </li> --}}
 
                                     {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('welcome-fabo') ? 'active' : '' }}"

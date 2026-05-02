@@ -100,4 +100,53 @@ class VendorController extends Controller
 
         return view('vendor.pesanan', compact('vendor', 'pesanans'));
     }
+
+// Tampilkan halaman scan QR Code
+public function scanQr()
+{
+    return view('vendor.scan-qr');
+}
+
+// AJAX: cari pesanan berdasarkan idpesanan hasil scan QR
+public function cariPesanan($idpesanan)
+{
+    $pesanan = Pesanan::with('details.menu')
+                      ->where('idpesanan', $idpesanan)
+                      ->first();
+
+    if (!$pesanan) {
+        return response()->json([
+            'status'  => 'not_found',
+            'message' => 'Pesanan tidak ditemukan'
+        ]);
+    }
+
+    $vendor   = $this->getVendor();
+    $idvendor = $vendor->idvendor;
+
+    // Ambil hanya detail pesanan milik vendor ini
+
+   
+    $details  = $pesanan->details->filter(function($d) use ($idvendor) {
+        return $d->menu && $d->menu->idvendor == $idvendor;
+    })->values();
+
+    return response()->json([
+        'status'      => 'success',
+        'idpesanan'   => $pesanan->idpesanan,
+        'nama'        => $pesanan->nama,
+        'status_bayar'=> $pesanan->status_bayar,
+        'label_bayar' => $pesanan->status_bayar == 1 ? 'Lunas' : ($pesanan->status_bayar == 2 ? 'Gagal' : 'Belum Bayar'),
+        'details'     => $details->map(function($d) {
+            return [
+                'nama_menu' => $d->menu->nama_menu ?? '-',
+                'jumlah'    => $d->jumlah,
+                'subtotal'  => number_format($d->subtotal, 0, ',', '.'),
+            ];
+        }),
+        'total' => number_format($pesanan->total, 0, ',', '.'),
+    ]);
+}
+
+    
 }

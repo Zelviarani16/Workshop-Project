@@ -83,4 +83,30 @@ public function cetak(Request $request)
     $pdf = Pdf::loadView('barang.pdf', compact('data', 'start', 'barcodes'));
     return $pdf->stream('tag-harga.pdf');
 }
+
+// Tampilkan halaman scanner barcode
+public function scan() 
+{
+    return view('barang.scan');
+}
+
+// AJAX: Cari barang berdasarkan id_barang hasil scan
+public function cariBarcode($id_barang)
+{
+    $barang = Barang::where('id_barang', $id_barang)->first();
+
+    if (!$barang) {
+        return response()->json([
+            'status' => 'not_found',
+            'message' => 'Barang tidak ditemukan'
+        ]);
+    }
+
+    return response()->json([
+        'status'    => 'success',
+        'id_barang' => $barang->id_barang,
+        'nama'      => $barang->nama,
+        'harga'     => number_format($barang->harga, 0, ',', '.'),
+    ]);
+}
 }
