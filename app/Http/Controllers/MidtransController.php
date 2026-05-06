@@ -54,4 +54,4 @@ class MidtransController extends Controller
         // Balas ke Midtrans: "ok, sudah aku proses!"
         return response()->json(['message' => 'OK']);
     }
-}
+} 

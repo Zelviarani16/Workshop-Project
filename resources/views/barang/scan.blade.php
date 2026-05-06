@@ -94,7 +94,7 @@ function startScanner() {
             sudahScan = true;
 
             // 1. Bunyi beep
-            document.ElementById('beepSound').play();
+            document.getElementById('beepSound').play();
 
             // 2. Stop scanner
             scanner.stop().then(function() {

@@ -133,7 +133,7 @@
                       <a class="nav-link" href="{{ route('pesan.riwayat') }}">
                           <i class="mdi mdi-history menu-icon"></i>
                           <span class="menu-title">Riwayat Pesanan</span>
-                      </a>
+                     </a>
                   </li> --}}
 
                                     {{-- <li class="nav-item">
