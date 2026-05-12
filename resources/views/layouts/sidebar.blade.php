@@ -128,6 +128,19 @@
                       </a>
                   </li>
 
+                  <li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('toko.*') ? 'active' : '' }}"
+       href="{{ route('toko.index') }}">
+        Toko
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {{ request()->routeIs('kunjungan.*') ? 'active' : '' }}"
+       href="{{ route('kunjungan.index') }}">
+        Kunjungan Sales
+    </a>
+</li>
+
 
                   {{-- <li class="nav-item">
                       <a class="nav-link" href="{{ route('pesan.riwayat') }}">

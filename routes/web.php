@@ -11,6 +11,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LatihanJsController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\TokoController;
 use App\Http\Controllers\UndanganController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WilayahController;
@@ -43,6 +44,17 @@ Route::get('/auth/google/callback', [AuthController::class, 'callbackGoogle']);
 });
 
 Route::middleware(['auth'])->group(function () {
+
+// Toko
+Route::get('/toko', [TokoController::class, 'index'])->name('toko.index');
+Route::post('/toko', [TokoController::class, 'store'])->name('toko.store');
+Route::get('/toko/{id}/barcode', [TokoController::class, 'cetakBarcode'])->name('toko.barcode');
+Route::post('/toko/{id}/titik', [TokoController::class, 'simpanTitik'])->name('toko.titik');
+Route::get('/toko/cari-barcode/{barcode}', [TokoController::class, 'cariBarcode'])->name('toko.cari-barcode');
+Route::post('/toko/kunjungan', [TokoController::class, 'kunjungan'])->name('toko.kunjungan');
+
+// Halaman kunjungan sales terpisah
+Route::get('/kunjungan', [TokoController::class, 'kunjunganIndex'])->name('kunjungan.index');
 
     Route::get('/sertifikat', [PdfController::class, 'sertifikat'])
         ->name('sertifikat.generate');
@@ -107,6 +119,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/scan-qr', [VendorController::class, 'scanQr'])->name('scan-qr');
     Route::get('/scan-qr/cari/{idpesanan}', [VendorController::class, 'cariPesanan'])->name('cari-pesanan');
 });
+
+
 });
 
 
@@ -153,6 +167,8 @@ Route::get('/pesan/qrcode/{idpesanan}', [CustomerController::class, 'qrcode'])->
 Route::get('/pesan/riwayat', function() {
     return view('customer.riwayat');
 })->name('pesan.riwayat');
+
+
 
 
 
